@@ -1,9 +1,9 @@
 import common.Configuration;
+import common.MockTrackUploader;
+import common.MockUsers;
 import pipeline.Artist;
 import pipeline.TrackUploader;
 import platform.StreamingPlatform;
-import common.MockTrackUploader;
-import common.MockUsers;
 import user.FanClub;
 import user.StreamingUser;
 
@@ -48,7 +48,9 @@ public class Main {
             new Thread(() -> user.start()).start();
         }
 
+        // NOTE: Ennek itt mar nincs ertelme... a subscribe-ok elott leteznie kell es a 33. sorban meg van hivva
         new Thread(() -> StreamingPlatform.instance().start()).start();
+        // NOTE: ja es errol beszeltem, hogy mar tele kell legyen a subscriber listajanak, kulonben mire activ lesz(feltoltodtek a zenek) meg nem lesz min vegigiteraljon
 
         //StreamingPlatform.instance().mockStart();
     }

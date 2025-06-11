@@ -3,7 +3,6 @@ package platform;
 import common.Configuration;
 import common.Track;
 import common.User;
-
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,6 +40,8 @@ public class StreamingPlatform {
     private final List<User> subscribers;
 
     // TODO - Type can be changed or can remain the same, however you wanna do it for Part 2
+    // NOTE: csinalnek egy readwritelockot es az isActive()-ban, (meg ahol epp) readlockolnam, mashol write
+    // NOTE: ez azert jo, mert amint at akarjuk allitani tobben nem tudnak ujonnan olvasni, csak akik mar bann vannak
     private volatile boolean isActive;
     // TODO - Create counter for maxNumberOfSongs
     private final AtomicInteger maxNumberOfSongs;
@@ -151,6 +152,7 @@ public class StreamingPlatform {
         System.out.println("[StreamingPlatform] All tracks are ready, Streaming Platform is online");
         this.isActive = true;
         for (final User u : subscribers) {
+            // NOTE: ez az a resz, ami nem art, ha nem ures subber-ekre fut le
             new Thread(() -> u.startStreaming()).start();
         }
 
